@@ -1,16 +1,16 @@
 <template>
  <div>
-   Home
+   Menu
  </div>
 </template>
 <script lang='ts'>
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'Home',
+  name: 'Menu',
   data () {
     return {
     }
-  }
+  },
 })
 </script>
 <style lang='scss' scoped>

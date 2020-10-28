@@ -1,15 +1,15 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
   extends: [
     'plugin:vue/essential',
     '@vue/standard',
-    '@vue/typescript/recommended'
+    '@vue/typescript/recommended',
   ],
   parserOptions: {
-    ecmaVersion: 2020
+    ecmaVersion: 2020,
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -18,10 +18,22 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': ['error', {
       multiline: {
         delimiter: 'none',
-        requireLast: true
-      }
-    }],
+        requireLast: true,
+      },
+    },
+    ],
     // 单引号
-    quotes: [1, 'single']
-  }
+    quotes: [
+      1,
+      'single',
+    ],
+    'comma-dangle': ['error', {
+      arrays: 'always',
+      objects: 'always',
+      imports: 'never',
+      exports: 'never',
+      functions: 'never',
+    },
+    ],
+  },
 }

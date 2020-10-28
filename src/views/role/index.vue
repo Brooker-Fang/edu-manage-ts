@@ -1,16 +1,16 @@
 <template>
  <div>
-   Advert
+   Role
  </div>
 </template>
 <script lang='ts'>
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'Advert',
+  name: 'Role',
   data () {
     return {
     }
-  }
+  },
 })
 </script>
 <style lang='scss' scoped>
