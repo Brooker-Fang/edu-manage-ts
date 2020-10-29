@@ -1,28 +1,53 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import Layout from '@/components/layout/index.vue'
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'home',
-    component: () => import(/* webpackChunkName: 'home' */'@/views/home/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/home',
+        name: 'home',
+        component: () => import(/* webpackChunkName: 'home' */'@/views/home/index.vue'),
+      },
+    ],
   },
   {
     path: '/advert',
-    name: 'advert',
-    component: () => import(/* webpackChunkName: 'advert' */'@/views/advert/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'advert',
+        component: () => import(/* webpackChunkName: 'advert' */'@/views/advert/index.vue'),
+      },
+    ],
   },
   {
     path: '/advert-space',
-    name: 'advert-space',
-    component: () => import(/* webpackChunkName: 'advert-space' */'@/views/advert-space/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'advert-space',
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/advert-space/index.vue'),
+      },
+    ],
   },
   {
     path: '/course',
-    name: 'course',
-    component: () => import(/* webpackChunkName: 'course' */ '@/views/course/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'course',
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/course/index.vue'),
+      },
+    ],
   },
   {
     path: '/login',
@@ -31,23 +56,47 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/menu',
-    name: 'menu',
-    component: () => import(/* webpackChunkName: 'menu' */ '@/views/menu/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'menu',
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/menu/index.vue'),
+      },
+    ],
   },
   {
     path: '/resource',
-    name: 'resource',
-    component: () => import(/* webpackChunkName: 'resource' */ '@/views/resource/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'resource',
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/resource/index.vue'),
+      },
+    ],
   },
   {
     path: '/role',
-    name: 'role',
-    component: () => import(/* webpackChunkName: 'role' */ '@/views/role/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'role',
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/role/index.vue'),
+      },
+    ],
   },
   {
     path: '/user',
-    name: 'user',
-    component: () => import(/* webpackChunkName: 'user' */ '@/views/user/index.vue'),
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'user',
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/user/index.vue'),
+      },
+    ],
   },
   {
     path: '*',
