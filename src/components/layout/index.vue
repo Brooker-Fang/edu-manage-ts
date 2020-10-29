@@ -37,12 +37,12 @@ export default Vue.extend({
   min-width: 980px;
 }
 .el-aside {
-  background: #d3dce6;
+  background: #ffffff;
 }
 .el-header {
-  background: #b3c0d1;
+  background: #ffffff;
 }
 .el-main {
-  background: #e9eef3;
+  background: #f0f3f6;
 }
 </style>
