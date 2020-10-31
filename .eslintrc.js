@@ -27,7 +27,7 @@ module.exports = {
       1,
       'single',
     ],
-    'comma-dangle': ['error', {
+    'comma-dangle': ['off', {
       arrays: 'always',
       objects: 'always',
       imports: 'never',
