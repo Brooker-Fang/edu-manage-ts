@@ -9,7 +9,7 @@
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password"></el-input>
+          <el-input type="password" v-model="form.password"></el-input>
         </el-form-item>
         <el-button type="primary"
                    class="login-btn"
@@ -28,8 +28,8 @@ export default Vue.extend({
     return {
       loading: false,
       form: {
-        phone: '', // 18201288771
-        password: '', // 111111
+        phone: '18201288771', // 18201288771
+        password: '111111', // 111111
       },
       rules: {
         phone: [
