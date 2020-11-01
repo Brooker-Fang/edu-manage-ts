@@ -21,10 +21,9 @@
                     prop="parentId">
         <el-select v-model="form.parentId"
                    placeholder="活动区域">
-          <el-option label="区域一"
-                     value="shanghai"></el-option>
-          <el-option label="区域二"
-                     value="beijing"></el-option>
+                   <el-option :value="-1" label="无上级菜单"></el-option>
+          <el-option v-for="item in parentList" :key="item.id"
+           :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="描述"
@@ -55,7 +54,7 @@
 </template>
 <script lang='ts'>
 import Vue from 'vue'
-import { createMenu } from '@/api/menu'
+import { createMenu, getEditMenuInfo } from '@/api/menu'
 
 export default Vue.extend({
   name: 'menu-create',
@@ -72,10 +71,20 @@ export default Vue.extend({
         description: '',
         shown: true,
       },
-      rules: {}
+      rules: {},
+      parentList: []
     }
   },
+  created () {
+    this.getEditMenuInfo()
+  },
   methods: {
+    async getEditMenuInfo () {
+      const { data } = await getEditMenuInfo()
+      if (data.code === '000000') {
+        this.parentList = data.data.parentMenuList
+      }
+    },
     async onSubmit () {
       this.loading = true
       try {

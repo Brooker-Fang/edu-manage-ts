@@ -5,31 +5,45 @@
   </div>
   <el-table
       :data="list"
-      style="width: 100%">
-      <el-table-column
-        prop="date"
-        label="日期"
-        width="180">
-      </el-table-column>
+      class="list-table"
+      style="width: 100%"
+      v-loading="loading">
       <el-table-column
         prop="name"
-        label="姓名"
+        label="菜单名称"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="address"
-        label="地址">
+        prop="level"
+        label="菜单级数"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="icon"
+        label="前端图标">
+      </el-table-column>
+      <el-table-column
+        prop="orderNum"
+        label="排序">
+      </el-table-column>
+      <el-table-column
+        label="操作">
+        <template slot-scope="scope">
+        <el-button @click="edit(scope.row.id)" size="small">编辑</el-button>
+        <el-button @click="deleteMenu(scope.row.id)" type="danger" size="small">删除</el-button>
+      </template>
       </el-table-column>
     </el-table>
 </el-card>
 </template>
 <script lang='ts'>
 import Vue from 'vue'
-import { getList } from '@/api/menu'
+import { getList, deleteMenu } from '@/api/menu'
 export default Vue.extend({
   name: 'Menu',
   data () {
     return {
+      loading: false,
       list: []
     }
   },
@@ -38,20 +52,39 @@ export default Vue.extend({
   },
   methods: {
     async getList () {
+      this.loading = true
       try {
         const res = await getList()
         this.list = res.data.data
       } catch (error) {
         this.$message.error(error.message)
+      } finally {
+        this.loading = false
       }
     },
     create () {
       this.$router.push({
         name: 'menu-create'
       })
+    },
+    edit (id: string) {
+      this.$router.push({
+        name: 'menu-create',
+        query: {
+          id
+        }
+      })
+    },
+    async deleteMenu (id: number) {
+      await deleteMenu(id)
+      this.getList()
     }
   }
 })
 </script>
 <style lang='scss' scoped>
+.list-table{
+  height: 500px;
+  overflow: auto;
+}
 </style>

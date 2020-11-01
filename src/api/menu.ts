@@ -13,3 +13,18 @@ export const getList = () => {
     url: '/boss/menu/getAll',
   })
 }
+export const getEditMenuInfo = (id = -1) => {
+  return request({
+    method: 'GET',
+    url: '/boss/menu/getEditMenuInfo',
+    params: {
+      id
+    }
+  })
+}
+export const deleteMenu = (id: number) => {
+  return request({
+    method: 'DELETE',
+    url: `/boss/menu/${id}`,
+  })
+}
