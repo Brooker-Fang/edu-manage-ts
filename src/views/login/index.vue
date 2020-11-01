@@ -58,7 +58,7 @@ export default Vue.extend({
             console.log(data.content)
             this.$store.commit('setUser', data.content)
             this.$message.success('登录成功')
-            this.$router.push(this.$route.query.redirect as string || '')
+            this.$router.push(this.$route.query.redirect as string || '/')
           }
           this.loading = false
         }
