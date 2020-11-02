@@ -2,6 +2,7 @@
   <el-card class="box-card">
     <div slot="header"
          class="clearfix">
+         <el-button class="back-btn" @click="$router.back()">返回</el-button>
       <span type="text">添加菜单</span>
     </div>
     <el-form ref="form"
@@ -48,13 +49,13 @@
       <el-button type="primary"
                  class="login-btn"
                  @click="onSubmit"
-                 :loading="loading">创建</el-button>
+                 :loading="loading">保存</el-button>
     </el-form>
   </el-card>
 </template>
 <script lang='ts'>
 import Vue from 'vue'
-import { createMenu, getEditMenuInfo } from '@/api/menu'
+import { createMenu, getEditMenuInfo, getMenu } from '@/api/menu'
 
 export default Vue.extend({
   name: 'menu-create',
@@ -62,7 +63,7 @@ export default Vue.extend({
     return {
       loading: false,
       form: {
-        id: '',
+        id: (this.$route.query && this.$route.query.id) ? this.$route.query.id : '',
         parentId: -1,
         name: '',
         href: '',
@@ -77,8 +78,18 @@ export default Vue.extend({
   },
   created () {
     this.getEditMenuInfo()
+    console.log(this.form.id)
+    if (this.form.id) {
+      this.getMenu(parseInt(this.form.id as string))
+    }
   },
   methods: {
+    async getMenu (id: number) {
+      const { data } = await getMenu(id)
+      if (data.code === '000000') {
+        this.form = data.data
+      }
+    },
     async getEditMenuInfo () {
       const { data } = await getEditMenuInfo()
       if (data.code === '000000') {
@@ -101,4 +112,7 @@ export default Vue.extend({
 })
 </script>
 <style lang='scss' scoped>
+.back-btn{
+  margin-right: 20px;
+}
 </style>

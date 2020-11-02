@@ -28,3 +28,9 @@ export const deleteMenu = (id: number) => {
     url: `/boss/menu/${id}`,
   })
 }
+export const getMenu = (id: number | string) => {
+  return request({
+    method: 'GET',
+    url: `/boss/menu/${id}`,
+  })
+}

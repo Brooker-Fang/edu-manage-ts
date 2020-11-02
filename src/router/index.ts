@@ -54,6 +54,11 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: 'advert-space' */'@/views/menu/create.vue'),
       },
       {
+        path: '/menu/create/:id',
+        name: 'menu-create',
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/menu/create.vue'),
+      },
+      {
         path: '/resource',
         name: 'resource',
         component: () => import(/* webpackChunkName: 'advert-space' */'@/views/resource/index.vue'),
