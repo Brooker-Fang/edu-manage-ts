@@ -64,7 +64,7 @@ export default Vue.extend({
       loading: false,
       form: {
         id: (this.$route.query && this.$route.query.id) ? this.$route.query.id : '',
-        parentId: -1,
+        parentId: (this.$route.query && this.$route.query.id) ? this.$route.query.id : -1,
         name: '',
         href: '',
         icon: '',
@@ -77,7 +77,7 @@ export default Vue.extend({
     }
   },
   created () {
-    this.getEditMenuInfo()
+    this.getEditMenuInfo(parseInt(this.form.parentId as string))
     console.log(this.form.id)
     if (this.form.id) {
       this.getMenu(parseInt(this.form.id as string))
@@ -90,8 +90,8 @@ export default Vue.extend({
         this.form = data.data
       }
     },
-    async getEditMenuInfo () {
-      const { data } = await getEditMenuInfo()
+    async getEditMenuInfo (id: number) {
+      const { data } = await getEditMenuInfo(id)
       if (data.code === '000000') {
         this.parentList = data.data.parentMenuList
       }
