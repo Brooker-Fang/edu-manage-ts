@@ -2,26 +2,44 @@
   <el-card class="box-card">
     <div slot="header"
          class="clearfix">
-      <el-button type="default"
-                 @click="create">添加菜单</el-button>
+      <el-form :inline="true" :model="searchParams" class="demo-form-inline">
+  <el-form-item label="资源名称">
+    <el-input v-model="searchParams.name" placeholder="填写资源名称"></el-input>
+  </el-form-item>
+  <el-form-item label="资源路径">
+    <el-input v-model="searchParams.rul" placeholder="填写资源路径"></el-input>
+  </el-form-item>
+  <el-form-item label="资源分类">
+    <el-select v-model="searchParams.categoryId" placeholder="选择资源分类">
+      <el-option label="区域一" value="shanghai"></el-option>
+      <el-option label="区域二" value="beijing"></el-option>
+    </el-select>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="getList">查询</el-button>
+  </el-form-item>
+</el-form>
     </div>
     <el-table :data="list"
               class="list-table"
               style="width: 100%"
               v-loading="loading">
+      <el-table-column prop="id"
+                       label="编号"
+                       width="180">
+      </el-table-column>
       <el-table-column prop="name"
-                       label="菜单名称"
+                       label="资源名称"
                        width="180">
       </el-table-column>
-      <el-table-column prop="level"
-                       label="菜单级数"
-                       width="180">
+      <el-table-column prop="url"
+                       label="资源路径">
       </el-table-column>
-      <el-table-column prop="icon"
-                       label="前端图标">
+      <el-table-column prop="description"
+                       label="描述">
       </el-table-column>
-      <el-table-column prop="orderNum"
-                       label="排序">
+      <el-table-column prop="createdTime"
+                       label="添加时间">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -37,18 +55,20 @@
 </template>
 <script lang='ts'>
 import Vue from 'vue'
-import { getList, deleteRes } from '@/api/resource'
+import { getList, deleteRes, getResTypeList } from '@/api/resource'
 export default Vue.extend({
   name: 'Resource',
   data () {
     return {
+      total: 0,
       list: [],
+      typeList: [],
       loading: false,
       searchParams: {
         name: '',
         startCreateTime: '',
         url: '',
-        categoryId: 0,
+        categoryId: '',
         endCreateTime: '',
         current: 1,
         size: 10,
@@ -56,9 +76,14 @@ export default Vue.extend({
     }
   },
   created () {
+    this.getTypeList()
     this.getList()
   },
   methods: {
+    async getTypeList () {
+      const res = await getResTypeList()
+      this.typeList = res.data.data
+    },
     async getList () {
       this.loading = true
       try {
