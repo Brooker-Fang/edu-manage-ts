@@ -2,22 +2,35 @@
   <el-card class="box-card">
     <div slot="header"
          class="clearfix">
-      <el-form :inline="true" :model="searchParams" class="demo-form-inline">
-  <el-form-item label="资源名称">
-    <el-input v-model="searchParams.name" placeholder="填写资源名称"></el-input>
-  </el-form-item>
-  <el-form-item label="资源路径">
-    <el-input v-model="searchParams.url" placeholder="填写资源路径"></el-input>
-  </el-form-item>
-  <el-form-item label="资源分类">
-    <el-select v-model="searchParams.categoryId" placeholder="选择资源分类">
-      <el-option v-for="type in typeList" :key="type.id" :label="type.name" :value="type.id"></el-option>
-    </el-select>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="getList">查询</el-button>
-  </el-form-item>
-</el-form>
+      <el-form :inline="true"
+               :model="searchParams"
+               class="demo-form-inline">
+        <el-form-item label="资源名称">
+          <el-input v-model="searchParams.name"
+                    placeholder="填写资源名称"></el-input>
+        </el-form-item>
+        <el-form-item label="资源路径">
+          <el-input v-model="searchParams.url"
+                    placeholder="填写资源路径"></el-input>
+        </el-form-item>
+        <el-form-item label="资源分类">
+          <el-select v-model="searchParams.categoryId"
+                     placeholder="选择资源分类">
+            <el-option v-for="type in typeList"
+                       :key="type.id"
+                       :label="type.name"
+                       :value="type.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary"
+                     @click="getList">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div>
+      <el-button @click="create">添加</el-button>
+      <el-button @click="goResClassify">资源分类</el-button>
     </div>
     <el-table :data="list"
               class="list-table"
@@ -97,22 +110,27 @@ export default Vue.extend({
     },
     create () {
       this.$router.push({
-        name: 'menu-create'
+        name: 'resource-create',
       })
     },
     edit (id: string) {
       this.$router.push({
-        name: 'menu-create',
+        name: 'resource-create',
         query: {
-          id
-        }
+          id,
+        },
+      })
+    },
+    goResClassify () {
+      this.$router.push({
+        name: 'resource-type',
       })
     },
     async deleteRes (id: number) {
       await deleteRes(id)
       this.getList()
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang='scss' scoped>
