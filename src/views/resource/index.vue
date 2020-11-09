@@ -7,12 +7,11 @@
     <el-input v-model="searchParams.name" placeholder="填写资源名称"></el-input>
   </el-form-item>
   <el-form-item label="资源路径">
-    <el-input v-model="searchParams.rul" placeholder="填写资源路径"></el-input>
+    <el-input v-model="searchParams.url" placeholder="填写资源路径"></el-input>
   </el-form-item>
   <el-form-item label="资源分类">
     <el-select v-model="searchParams.categoryId" placeholder="选择资源分类">
-      <el-option label="区域一" value="shanghai"></el-option>
-      <el-option label="区域二" value="beijing"></el-option>
+      <el-option v-for="type in typeList" :key="type.id" :label="type.name" :value="type.id"></el-option>
     </el-select>
   </el-form-item>
   <el-form-item>
@@ -88,7 +87,8 @@ export default Vue.extend({
       this.loading = true
       try {
         const res = await getList(this.searchParams)
-        this.list = res.data.data
+        this.list = res.data.data.records
+        this.total = res.data.data.total
       } catch (error) {
         this.$message.error(error.message)
       } finally {
