@@ -34,6 +34,13 @@ export const getResTypeList = () => {
     url: '/boss/resource/category/getAll',
   })
 }
+export const createType = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/resource/category/saveOrderUpdate',
+    data,
+  })
+}
 export const deleteResType = (id: number) => {
   return request({
     method: 'DELETE',
