@@ -43,7 +43,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="排序"
-                    prop="phone">
+                    prop="sort">
         <el-input-number v-model="form.orderNum" :min="1" :max="10" label="排序"></el-input-number>
       </el-form-item>
       <el-button type="primary"

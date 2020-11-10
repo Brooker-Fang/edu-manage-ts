@@ -5,7 +5,7 @@
     </div>
     <div>
       <el-button class="back-btn" @click="$router.back()">返回</el-button>
-      <el-button @click="create">添加</el-button>
+      <el-button @click="createDialog">添加</el-button>
     </div>
     <el-table :data="typeList"
               class="typeList-table"
@@ -27,7 +27,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row.id)"
+          <el-button @click="edit(scope.row)"
                      size="small">编辑</el-button>
           <el-button @click="deleteResType(scope.row.id)"
                      type="danger"
@@ -35,11 +35,36 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog :title="opeaStatus === 'add' ? '添加分类': '修改分类'" :visible="show" width="400px" left>
+      <el-form ref="form"
+             :model="form"
+             label-width="80px"
+             class="form-style">
+      <el-form-item label="名称"
+                    prop="name">
+        <el-input v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item label="排序"
+                    prop="sort">
+        <el-input-number v-model="form.sort" :min="1" :max="10" label="排序"></el-input-number>
+      </el-form-item>
+      <el-button type="primary"
+                 class="login-btn"
+                 @click="create"
+                 :loading="loading">保存</el-button>
+    </el-form>
+    </el-dialog>
   </el-card>
 </template>
 <script lang='ts'>
 import Vue from 'vue'
 import { createType, deleteResType, getResTypeList } from '@/api/resource'
+type Form = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  id: any
+  name: string
+  sort: number
+}
 export default Vue.extend({
   name: 'Resource',
   data () {
@@ -51,13 +76,17 @@ export default Vue.extend({
         name: '',
         sort: 0
       },
-      opeaStatus: 'add'
+      opeaStatus: 'add',
+      show: false
     }
   },
   created () {
     this.getTypeList()
   },
   methods: {
+    createDialog () {
+      this.show = true
+    },
     async getTypeList () {
       const res = await getResTypeList()
       this.typeList = res.data.data
@@ -66,17 +95,17 @@ export default Vue.extend({
       try {
         await createType(this.form)
         this.$message.success('操作成功')
+        this.show = false
         this.getTypeList()
       } catch (error) {
+        this.show = false
       }
     },
-    edit (id: string) {
-      this.$router.push({
-        name: 'resource-create',
-        query: {
-          id,
-        },
-      })
+    edit ({ id, name, sort }: Form) {
+      this.form = {
+        id, name, sort
+      }
+      this.createDialog()
     },
     async deleteResType (id: number) {
       await deleteResType(id)
