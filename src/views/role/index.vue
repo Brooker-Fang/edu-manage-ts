@@ -27,11 +27,8 @@
                        width="180">
       </el-table-column>
       <el-table-column prop="name"
-                       label="资源名称"
+                       label="角色名称"
                        width="180">
-      </el-table-column>
-      <el-table-column prop="url"
-                       label="资源路径">
       </el-table-column>
       <el-table-column prop="description"
                        label="描述">
@@ -41,10 +38,13 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row.id)"
+          <el-button @click="allocateMenu(scope.row.id)" type="text"
+                     size="small">分配菜单</el-button>
+                     <el-button @click="allocateRes(scope.row.id)" type="text"
+                     size="small">分配资源</el-button>
+                     <el-button @click="edit(scope.row.id)" type="text"
                      size="small">编辑</el-button>
-          <el-button @click="deleteRes(scope.row.id)"
-                     type="danger"
+                     <el-button @click="deleteRes(scope.row.id)" type="text"
                      size="small">删除</el-button>
         </template>
       </el-table-column>

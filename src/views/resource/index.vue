@@ -68,6 +68,7 @@
 <script lang='ts'>
 import Vue from 'vue'
 import { getList, deleteRes, getResTypeList } from '@/api/resource'
+import dayjs from 'dayjs'
 export default Vue.extend({
   name: 'Resource',
   data () {
