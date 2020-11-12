@@ -1,9 +1,13 @@
 <template>
- <el-card class="box-card">
-   AllocateRole
- </el-card>
+  <el-card class="box-card">
+    <el-tree :data="menus"
+             show-checkbox
+             :props="defaultProps"
+             @node-click="handleNodeClick"></el-tree>
+  </el-card>
 </template>
 <script>
+import { getAllMenuLevel } from '@/api/menu'
 export default {
   name: 'AllocateRole',
   props: {
@@ -13,10 +17,28 @@ export default {
   },
   data () {
     return {
+      menus: [],
+      defaultProps: {
+        children: 'subMenuList',
+        label: 'name'
+      }
     }
   },
-  mounted () {
-    console.log(this.roleId)
+  created () {
+    this.getAllMenuLevel()
+  },
+  methods: {
+    async getAllMenuLevel () {
+      try {
+        const { data } = await getAllMenuLevel()
+        this.menus = data.data
+      } catch (error) {
+        this.$message.error(error)
+      }
+    },
+    handleNodeClick () {
+      console.log(111)
+    }
   }
 }
 </script>

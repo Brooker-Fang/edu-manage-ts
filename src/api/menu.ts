@@ -34,3 +34,9 @@ export const getMenu = (id: number | string) => {
     url: `/boss/menu/${id}`,
   })
 }
+export const getAllMenuLevel = () => {
+  return request({
+    method: 'GET',
+    url: '/boss/menu/getMenuNodeList',
+  })
+}
