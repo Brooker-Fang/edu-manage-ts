@@ -170,6 +170,18 @@ export default Vue.extend({
       await deleteRole(id)
       this.getList()
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    allocateMenu (id: any) {
+      this.$router.push({
+        name: 'allocate-menu',
+        params: {
+          roleId: id,
+        }
+      })
+    },
+    allocateRoleRes () {
+      console.log('allocateRoleRes')
+    }
   },
 })
 </script>
