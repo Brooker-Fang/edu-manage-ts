@@ -40,3 +40,19 @@ export const getAllMenuLevel = () => {
     url: '/boss/menu/getMenuNodeList',
   })
 }
+export const allocateMenu = (data: object) => {
+  return request({
+    method: 'POST',
+    url: '/boss/menu/allocateRoleMenus',
+    data,
+  })
+}
+export const getRoleMenu = (roleId: string | number) => {
+  return request({
+    method: 'GET',
+    url: '/boss/menu/getRoleMenus',
+    params: {
+      roleId
+    }
+  })
+}

@@ -1,18 +1,31 @@
 <template>
   <el-card class="box-card">
-    <el-tree :data="menus"
+    <el-tree ref="menu-tree"
+      :data="menus"
              show-checkbox
-             :props="defaultProps"
-             @node-click="handleNodeClick"></el-tree>
+             :default-checked-keys="checkedKeys"
+             :props="defaultProps"></el-tree>
+    <div class="flex flex-center ">
+      <el-button type="default"
+                   class="login-btn"
+                   @click="$router.back()"
+                   >取消</el-button>
+        <el-button type="primary"
+                   class="login-btn"
+                   @click="onSave"
+                   :loading="loading">保存</el-button>
+    </div>
   </el-card>
 </template>
 <script>
-import { getAllMenuLevel } from '@/api/menu'
+import { getAllMenuLevel, allocateMenu, getRoleMenu } from '@/api/menu'
+import { Tree } from 'element-ui'
 export default {
   name: 'AllocateRole',
   props: {
     roleId: {
-      type: [String, Number]
+      type: [String, Number],
+      require: true
     }
   },
   data () {
@@ -21,11 +34,14 @@ export default {
       defaultProps: {
         children: 'subMenuList',
         label: 'name'
-      }
+      },
+      loading: false,
+      checkedKeys: []
     }
   },
   created () {
     this.getAllMenuLevel()
+    this.getRoleMenu()
   },
   methods: {
     async getAllMenuLevel () {
@@ -36,8 +52,27 @@ export default {
         this.$message.error(error)
       }
     },
-    handleNodeClick () {
-      console.log(111)
+    async getRoleMenu () {
+      const { data } = await getRoleMenu(this.roleId)
+      this.getCheckedKeys(data.data)
+    },
+    getCheckedKeys (menus) {
+      menus.forEach((menu) => {
+        if (menu.selected) {
+          this.checkedKeys = [...this.checkedKeys, menu.id]
+        }
+        if (menu.subMenuList) {
+          this.getCheckedKeys(menu.subMenuList)
+        }
+      })
+    },
+    async onSave () {
+      const menuIdList = this.$refs['menu-tree'].getCheckedKeys()
+      const { data } = await allocateMenu({
+        roleId: this.roleId,
+        menuIdList
+      })
+      console.log(data)
     }
   }
 }
