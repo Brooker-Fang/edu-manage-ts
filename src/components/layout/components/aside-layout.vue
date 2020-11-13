@@ -65,7 +65,7 @@ export default Vue.extend({
 </script>
 <style lang='scss' scoped>
 .aside{
-  height: 100vh;
+  min-height: 100vh;
   background:#545c64;
 }
 </style>

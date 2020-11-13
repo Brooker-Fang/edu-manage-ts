@@ -1,6 +1,6 @@
 // 菜单
 import request from '@/utils/request'
-export const createMenu = (data: any) => {
+export const createMenu = (data: object) => {
   return request({
     method: 'POST',
     url: '/boss/menu/saveOrUpdate',

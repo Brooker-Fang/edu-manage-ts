@@ -2,6 +2,8 @@
   <el-card class="box-card">
     <el-tree ref="menu-tree"
       :data="menus"
+      node-key="id"
+      default-expand-all=""
              show-checkbox
              :default-checked-keys="checkedKeys"
              :props="defaultProps"></el-tree>
@@ -19,7 +21,6 @@
 </template>
 <script>
 import { getAllMenuLevel, allocateMenu, getRoleMenu } from '@/api/menu'
-import { Tree } from 'element-ui'
 export default {
   name: 'AllocateRole',
   props: {
@@ -68,11 +69,13 @@ export default {
     },
     async onSave () {
       const menuIdList = this.$refs['menu-tree'].getCheckedKeys()
-      const { data } = await allocateMenu({
+      console.log(menuIdList)
+      await allocateMenu({
         roleId: this.roleId,
         menuIdList
       })
-      console.log(data)
+      this.$message.success('分配成功')
+      this.getRoleMenu()
     }
   }
 }
