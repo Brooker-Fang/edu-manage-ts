@@ -12,6 +12,10 @@
                    class="login-btn"
                    @click="$router.back()"
                    >取消</el-button>
+                   <el-button type="default"
+                   class="login-btn"
+                   @click="resetMenu"
+                   >清空</el-button>
         <el-button type="primary"
                    class="login-btn"
                    @click="onSave"
@@ -76,6 +80,9 @@ export default {
       })
       this.$message.success('分配成功')
       this.getRoleMenu()
+    },
+    resetMenu () {
+      this.$refs['menu-tree'].setCheckedKeys([])
     }
   }
 }
