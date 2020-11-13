@@ -90,6 +90,12 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: 'advert-space' */'@/views/role/allocate-menu.vue'),
       },
       {
+        path: '/allocate-res/:roleId',
+        name: 'allocate-res',
+        props: true,
+        component: () => import(/* webpackChunkName: 'advert-space' */'@/views/role/allocate-res.vue'),
+      },
+      {
         path: '/user',
         name: 'user',
         component: () => import(/* webpackChunkName: 'advert-space' */'@/views/user/index.vue'),

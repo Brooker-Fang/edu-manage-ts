@@ -54,3 +54,12 @@ export const allocateRoleRes = (data: object) => {
     data
   })
 }
+export const getRoleRes = (roleId: string | number) => {
+  return request({
+    method: 'GET',
+    url: '/boss/resource/getRoleResources',
+    params: {
+      roleId
+    }
+  })
+}
