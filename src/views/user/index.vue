@@ -11,7 +11,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary"
-                     @click="getList">查询</el-button>
+                     @click="search">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -33,20 +33,17 @@
       <el-table-column prop="phone"
                        label="手机号">
       </el-table-column>
-      <el-table-column prop="phone"
-                       label="状态">
-      </el-table-column>
       <el-table-column prop="createdTime"
                        label="添加时间">
+                       <template slot-scope="scope">
+                         {{scope.row.createTime | formatDate}}
+                       </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button @click="allocateRole(scope.row.id)"
+          <el-button @click="allocateRoleDialog(scope.row.id)"
                      type="text"
                      size="small">分配角色</el-button>
-          <el-button @click="deleteRes(scope.row.id)"
-                     type="text"
-                     size="small">禁用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -58,17 +55,23 @@
                :model="form"
                label-width="80px"
                class="form-style">
-        <el-form-item label="描述"
-                      prop="description">
-          <el-input v-model="form.description"></el-input>
-        </el-form-item>
+               <el-form-item>
+        <el-select v-model="form.roleIdList" multiple placeholder="请选择">
+          <el-option
+            v-for="item in roleList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+               </el-form-item>
         <el-button type="default"
                    class="login-btn"
                    @click="show = false"
                    >取消</el-button>
         <el-button type="primary"
                    class="login-btn"
-                   @click="createRole"
+                   @click="allocateRole"
                    :loading="loading">保存</el-button>
       </el-form>
     </el-dialog>
@@ -76,14 +79,19 @@
 </template>
 <script lang='ts'>
 import Vue from 'vue'
-import { getList, enableUser, forbidUser } from '@/api/user'
+import { getList } from '@/api/user'
+import { getAllRole, allocateUserRoles, getUserRole } from '@/api/role'
+import dayjs from 'dayjs'
 export default Vue.extend({
   name: 'User',
   data () {
     return {
+      dayjs: dayjs,
       loading: false,
       total: 0,
       list: [],
+      roleList: [],
+      show: false,
       searchParams: {
         phone: '',
         startCreateTime: '',
@@ -93,17 +101,19 @@ export default Vue.extend({
         size: 10,
       },
       form: {
-        id: '',
-        code: '',
-        name: '',
-        description: ''
+        roleIdList: [],
+        userId: ''
       }
     }
   },
   created () {
+    this.getAllRole()
     this.getList(this.searchParams)
   },
   methods: {
+    search () {
+      this.getList(this.searchParams)
+    },
     async getList (searchParams: object) {
       this.loading = true
       try {
@@ -116,8 +126,31 @@ export default Vue.extend({
         this.loading = false
       }
     },
-    allocateRole (id: string|number) {
-      console.log(id)
+    async allocateRole () {
+      try {
+        await allocateUserRoles(this.form)
+        this.$message.success('分配成功')
+        this.show = false
+        this.getList(this.searchParams)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getAllRole () {
+      const { data } = await getAllRole()
+      this.roleList = data.data
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    allocateRoleDialog (id: any) {
+      this.show = true
+      this.form.userId = id
+      this.getUserRole(id)
+    },
+    async getUserRole (userId: string|number) {
+      const { data } = await getUserRole(userId)
+      console.log(data)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.form.roleIdList = data.data.map((item: any) => item.id)
     }
   }
 })

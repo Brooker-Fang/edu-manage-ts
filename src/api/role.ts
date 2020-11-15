@@ -33,3 +33,18 @@ export const allocateUserRoles = (data: object) => {
     data
   })
 }
+export const getAllRole = () => {
+  return request({
+    method: 'GET',
+    url: '/boss/role/all',
+  })
+}
+export const getUserRole = (userId: string|number) => {
+  return request({
+    method: 'GET',
+    url: `/boss/role/user/${userId}`,
+    params: {
+      userId
+    }
+  })
+}
