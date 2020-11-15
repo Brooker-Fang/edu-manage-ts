@@ -3,9 +3,10 @@ import store from '@/store'
 import { Message } from 'element-ui'
 import router from '@/router'
 import qs from 'qs'
+
 const request = axios.create({
   // 配置选项
-  // baseURL,
+  baseURL: process.env.VUE_APP_API_URL,
   // timeout
 })
 // const errorStr : object = {
