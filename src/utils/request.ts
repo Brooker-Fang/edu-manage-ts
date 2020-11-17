@@ -6,7 +6,7 @@ import qs from 'qs'
 
 const request = axios.create({
   // 配置选项
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: 'http://113.31.105.128/',
   // timeout
 })
 // const errorStr : object = {
