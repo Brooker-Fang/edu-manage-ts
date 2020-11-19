@@ -1,5 +1,5 @@
 <template>
- <el-card class="box-card">
+  <el-card class="box-card">
     <div slot="header"
          class="clearfix">
       <el-form :inline="true"
@@ -10,10 +10,13 @@
                     placeholder="填写课程名称"></el-input>
         </el-form-item>
         <el-form-item label="课程名称">
-          <el-select v-model="searchParams.status" placeholder="选择课程状态">
+          <el-select v-model="searchParams.status"
+                     placeholder="选择课程状态">
             <el-option value="">全部</el-option>
-            <el-option label="上架" :value="1"></el-option>
-            <el-option label="下架" :value="0"></el-option>
+            <el-option label="上架"
+                       :value="1"></el-option>
+            <el-option label="下架"
+                       :value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -42,20 +45,21 @@
       </el-table-column>
       <el-table-column prop="status"
                        label="状态">
-                       <template slot-scope="scope">
-                         <span v-if="scope.row.status === 0" class="status off-status"></span>
-                         <span v-if="scope.row.status === 1" class="status on-status"></span>
-                       </template>
+        <template slot-scope="scope">
+          <el-switch v-model="scope.row.status"
+                     active-color="#13ce66"
+                     inactive-color="#ff4949"
+                     :active-value="1"
+                     :inactive-value="0"
+                     @change="changStatus(scope.row)">
+          </el-switch>
+        </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status === 0" @click="changStatus(scope.row.id, 1)"
-                     pageSize="small">上架</el-button>
-                     <el-button v-if="scope.row.status === 1" @click="changStatus(scope.row.id, 0)"
-                     pageSize="small">下架</el-button>
-                     <el-button @click="editCourse(scope.row.id)"
+          <el-button @click="editCourse(scope.row.id)"
                      pageSize="small">编辑</el-button>
-                     <el-button @click="editCourse(scope.row.id)"
+          <el-button @click="editCourse(scope.row.id)"
                      pageSize="small">内容管理</el-button>
         </template>
       </el-table-column>
@@ -68,20 +72,20 @@
                :model="form"
                label-width="80px"
                class="form-style">
-               <el-form-item>
-        <el-select v-model="form.roleIdList" multiple placeholder="请选择">
-          <el-option
-            v-for="item in roleList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-               </el-form-item>
+        <el-form-item>
+          <el-select v-model="form.roleIdList"
+                     multiple
+                     placeholder="请选择">
+            <el-option v-for="item in roleList"
+                       :key="item.id"
+                       :label="item.name"
+                       :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-button type="default"
                    class="login-btn"
-                   @click="show = false"
-                   >取消</el-button>
+                   @click="show = false">取消</el-button>
         <el-button type="primary"
                    class="login-btn"
                    @click="show = false"
@@ -112,8 +116,8 @@ export default Vue.extend({
       },
       form: {
         roleIdList: [],
-        userId: ''
-      }
+        userId: '',
+      },
     }
   },
   created () {
@@ -138,27 +142,27 @@ export default Vue.extend({
     editCourse (id: number | string) {
       console.log(id)
     },
-    async changStatus (id: string | number, status: number) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async changStatus (data: any) {
       try {
-        await changStatus({ courseId: id, status })
+        await changStatus({ courseId: data.id, status: data.status })
         this.$message.success('操作成功')
-        this.getList(this.searchParams)
-      } catch (error) {
-      }
-    }
-  }
+        // this.getList(this.searchParams)
+      } catch (error) {}
+    },
+  },
 })
 </script>
 <style lang='scss' scoped>
-.status{
+.status {
   width: 10px;
   height: 10px;
   border-radius: 50%;
 }
-.off-status{
+.off-status {
   background: red;
 }
-.on-status{
+.on-status {
   background: chartreuse;
 }
 </style>
