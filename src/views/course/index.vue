@@ -12,8 +12,8 @@
         <el-form-item label="课程名称">
           <el-select v-model="searchParams.status" placeholder="选择课程状态">
             <el-option value="">全部</el-option>
-            <el-option :value="1">上架</el-option>
-            <el-option :value="0">下架</el-option>
+            <el-option label="上架" :value="1"></el-option>
+            <el-option label="下架" :value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -42,11 +42,17 @@
       </el-table-column>
       <el-table-column prop="status"
                        label="状态">
+                       <template slot-scope="scope">
+                         <span v-if="scope.row.status === 0" class="status off-status"></span>
+                         <span v-if="scope.row.status === 1" class="status on-status"></span>
+                       </template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button @click="changStatus(scope.row.id)"
+          <el-button v-if="scope.row.status === 0" @click="changStatus(scope.row.id, 1)"
                      pageSize="small">上架</el-button>
+                     <el-button v-if="scope.row.status === 1" @click="changStatus(scope.row.id, 0)"
+                     pageSize="small">下架</el-button>
                      <el-button @click="editCourse(scope.row.id)"
                      pageSize="small">编辑</el-button>
                      <el-button @click="editCourse(scope.row.id)"
@@ -86,7 +92,7 @@
 </template>
 <script lang='ts'>
 import Vue from 'vue'
-import { getList } from '@/api/course'
+import { getList, changStatus } from '@/api/course'
 import dayjs from 'dayjs'
 export default Vue.extend({
   name: 'User',
@@ -132,8 +138,27 @@ export default Vue.extend({
     editCourse (id: number | string) {
       console.log(id)
     },
+    async changStatus (id: string | number, status: number) {
+      try {
+        await changStatus({ courseId: id, status })
+        this.$message.success('操作成功')
+        this.getList(this.searchParams)
+      } catch (error) {
+      }
+    }
   }
 })
 </script>
 <style lang='scss' scoped>
+.status{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.off-status{
+  background: red;
+}
+.on-status{
+  background: chartreuse;
+}
 </style>

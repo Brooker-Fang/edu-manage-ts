@@ -1,7 +1,6 @@
 import request from '@/utils/request'
 interface Course {
   courseId: string | number
-  courseName: string
   status: number
 }
 export const getList = (data: object) => {
