@@ -51,6 +51,7 @@
                      inactive-color="#ff4949"
                      :active-value="1"
                      :inactive-value="0"
+                     :disabled="changeLoading"
                      @change="changStatus(scope.row)">
           </el-switch>
         </template>
@@ -118,6 +119,7 @@ export default Vue.extend({
         roleIdList: [],
         userId: '',
       },
+      changeLoading: false
     }
   },
   created () {
@@ -145,8 +147,10 @@ export default Vue.extend({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async changStatus (data: any) {
       try {
+        this.changeLoading = true
         await changStatus({ courseId: data.id, status: data.status })
-        this.$message.success('操作成功')
+        this.changeLoading = false
+        this.$message.success(`${data.status ? '上架' : '下架'}成功`)
         // this.getList(this.searchParams)
       } catch (error) {}
     },

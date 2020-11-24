@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["user"],{"1db4":function(e,n,t){"use strict";t.r(n);var u=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v(" 404 ")])},a=[],r=t("2b0e"),c=r["default"].extend({name:"404",data:function(){return{}}}),s=c,d=t("2877"),i=Object(d["a"])(s,u,a,!1,null,"1294681c",null);n["default"]=i.exports}}]);
+//# sourceMappingURL=user.55a488fd.js.map
