@@ -6,7 +6,7 @@ import qs from 'qs'
 
 const request = axios.create({
   // 配置选项
-  baseURL: 'https://113.31.105.128/',
+  baseURL: 'http://113.31.105.128/',
   // timeout
 })
 // const errorStr : object = {

@@ -22,6 +22,8 @@
         <el-form-item>
           <el-button type="primary"
                      @click="search">查询</el-button>
+          <el-button type="primary"
+                     @click="createCourse">新建课程</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -119,7 +121,7 @@ export default Vue.extend({
         roleIdList: [],
         userId: '',
       },
-      changeLoading: false
+      changeLoading: false,
     }
   },
   created () {
@@ -153,6 +155,11 @@ export default Vue.extend({
         this.$message.success(`${data.status ? '上架' : '下架'}成功`)
         // this.getList(this.searchParams)
       } catch (error) {}
+    },
+    createCourse () {
+      this.$router.push({
+        name: 'course-create',
+      })
     },
   },
 })
