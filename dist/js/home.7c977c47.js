@@ -1,2 +1,2 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["home"],{"7abe":function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v(" Home ")])},c=[],o=t("2b0e"),u=o["default"].extend({name:"Home",data:function(){return{}}}),r=u,i=t("2877"),l=Object(i["a"])(r,a,c,!1,null,"c4ca498a",null);n["default"]=l.exports}}]);
-//# sourceMappingURL=home.7c977c47.js.map
+(window.webpackJsonp = window.webpackJsonp || []).push([['home'], { '7abe': function (e, n, t) { 'use strict'; t.r(n); const a = function () { const e = this; const n = e.$createElement; const t = e._self._c || n; return t('div', [e._v(' Home ')]) }; const c = []; const o = t('2b0e'); const u = o.default.extend({ name: 'Home', data: function () { return {} } }); const r = u; const i = t('2877'); const l = Object(i.a)(r, a, c, !1, null, 'c4ca498a', null); n.default = l.exports } }])
+// # sourceMappingURL=home.7c977c47.js.map

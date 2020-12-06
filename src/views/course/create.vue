@@ -60,10 +60,55 @@
         </el-form-item>
       </div>
       <div v-show="activeStep === 2">
-        销售信息
+        <el-form-item label="售卖价格">
+          <el-input>
+            <template slot="append">元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="商品原价">
+          <el-input>
+            <template slot="append">元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="销量">
+          <el-input>
+            <template slot="append">元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="活动标签">
+          <el-input>
+          </el-input>
+        </el-form-item>
       </div>
       <div v-show="activeStep === 3">
-        秒杀活动
+        <el-form-item label="限时秒杀开关">
+          <el-switch v-model="isSeckill">
+
+          </el-switch>
+        </el-form-item>
+        <template v-if="isSeckill">
+          <el-form-item label="开始时间">
+            <el-date-picker type="date"
+                            placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="结束时间">
+            <el-date-picker type="date"
+                            placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="秒杀价格">
+            <el-input>
+              <template slot="append">元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="秒杀库存">
+            <el-input>
+              <template slot="append">个</template>
+            </el-input>
+          </el-form-item>
+        </template>
+
       </div>
       <div v-show="activeStep === 4">
         课程详情
@@ -78,6 +123,7 @@
   </el-card>
 </template>
 <script>
+import { createCourse } from '@/api/course'
 export default {
   name: 'CourseCreate',
   data () {
@@ -103,7 +149,8 @@ export default {
         title: '课程详情',
         icon: 'el-icon-edit'
       }],
-      imageUrl: ''
+      imageUrl: '',
+      isSeckill: false
     }
   },
   methods: {
@@ -126,33 +173,33 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.step-wrap{
+.step-wrap {
   margin-bottom: 20px;
 }
 .el-step {
   cursor: pointer;
 }
 ::v-deep .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
 ::v-deep .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>

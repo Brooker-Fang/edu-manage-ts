@@ -28,7 +28,7 @@ export default Vue.extend({
     return {
       loading: false,
       form: {
-        phone: '18201288771', // 18201288771
+        phone: '15510792995', // 15510792995
         password: '111111', // 111111
       },
       rules: {
