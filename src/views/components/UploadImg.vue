@@ -4,6 +4,7 @@
              :show-file-list="false"
              :before-upload="beforeAvatarUpload"
              :http-request="handleUpload">
+             <el-progress v-if="isUploading" type="circle" :percentage="percentage" :width="178" :status="percentage === 100 ? 'success': undefined"></el-progress>
     <img v-if="value"
          :src="value"
          class="avatar">
@@ -19,6 +20,12 @@ export default {
     value: {
       require: true,
       type: String
+    }
+  },
+  data () {
+    return {
+      isUploading: false,
+      percentage: 0
     }
   },
   methods: {
@@ -39,10 +46,19 @@ export default {
     },
     // 自定义上传
     async handleUpload (options) {
+      this.isUploading = true
       const fd = new FormData()
       fd.append('file', options.file)
-      const { data } = await uploadCourseImage(fd)
+      const { data } = await uploadCourseImage(fd, this.onUploadProgress)
+      this.isUploading = false
+      this.percentage = 0
       this.$emit('input', data.data.name)
+    },
+    onUploadProgress (e) {
+      // console.log(e.loaded) // 已上传的数据大小
+      // console.log(e.total) // 上传文件的总大小
+      this.percentage = Math.floor(e.loaded / e.total * 100)
+      console.log(this.percentage)
     }
   }
 }

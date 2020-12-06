@@ -42,49 +42,49 @@
       </div>
       <div v-show="activeStep === 2">
         <el-form-item label="售卖价格">
-          <el-input>
+          <el-input v-model="course.discounts">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="商品原价">
-          <el-input>
+          <el-input  v-model="course.price">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="销量">
-          <el-input>
-            <template slot="append">元</template>
+          <el-input  v-model="course.sales">
+            <template slot="append">个</template>
           </el-input>
         </el-form-item>
         <el-form-item label="活动标签">
-          <el-input>
+          <el-input v-model="course.discountsTag">
           </el-input>
         </el-form-item>
       </div>
       <div v-show="activeStep === 3">
         <el-form-item label="限时秒杀开关">
-          <el-switch v-model="isSeckill">
+          <el-switch v-model="course.activityCourse">
 
           </el-switch>
         </el-form-item>
-        <template v-if="isSeckill">
+        <template v-if="course.activityCourse">
           <el-form-item label="开始时间">
-            <el-date-picker type="date"
+            <el-date-picker v-model="course.activityCourseDTO.beginTime" type="date"
                             placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="结束时间">
-            <el-date-picker type="date"
+            <el-date-picker v-model="course.activityCourseDTO.beginTime" type="date"
                             placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="秒杀价格">
-            <el-input>
+            <el-input v-model="course.activityCourseDTO.amount">
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
           <el-form-item label="秒杀库存">
-            <el-input>
+            <el-input  v-model="course.activityCourseDTO.stock">
               <template slot="append">个</template>
             </el-input>
           </el-form-item>
@@ -92,9 +92,12 @@
 
       </div>
       <div v-show="activeStep === 4">
-        课程详情
+        <el-form-item label="课程详情">
+            <el-input type="textarea" v-model="course.courseDescriptionMarkDown">
+            </el-input>
+          </el-form-item>
         <el-form-item>
-          <el-button>保存</el-button>
+          <el-button @click="createCourse">保存</el-button>
         </el-form-item>
       </div>
       <el-form-item v-if="activeStep >= 0 && activeStep < 4">
@@ -135,13 +138,12 @@ export default {
         icon: 'el-icon-edit'
       }],
       imageUrl: '',
-      isSeckill: false,
       course: {
-        id: 0,
+        // id: 0,
         courseName: '',
         brief: '',
         teacherDTO: {
-          id: 0,
+          // id: 0,
           courseId: 0,
           teacherName: '',
           teacherHeadPicUrl: '',
@@ -164,8 +166,8 @@ export default {
         sales: 0,
         activityCourse: true,
         activityCourseDTO: {
-          id: 0,
-          courseId: 0,
+          // id: 0,
+          // courseId: 0,
           beginTime: '',
           endTime: '',
           amount: 0,
@@ -176,6 +178,15 @@ export default {
     }
   },
   methods: {
+    async createCourse () {
+      const { data } = await createCourse(this.course)
+      if (data.code === '000000') {
+        this.$message('创建成功')
+        this.$router.push({
+          name: 'course'
+        })
+      }
+    },
     handleAvatarSuccess (res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
     },
