@@ -35,5 +35,6 @@ module.exports = {
       functions: 'never',
     },
     ],
+    '@typescript-eslint/no-explicit-any': ['off']
   },
 }

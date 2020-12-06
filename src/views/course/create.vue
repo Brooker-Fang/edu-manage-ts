@@ -13,50 +13,31 @@
     <el-form label-width="80px">
       <div v-show="activeStep === 0">
         <el-form-item label="课程名称">
-          <el-input></el-input>
+          <el-input v-model="course.courseName"></el-input>
         </el-form-item>
         <el-form-item label="课程简介">
-          <el-input></el-input>
+          <el-input v-model="course.brief"></el-input>
         </el-form-item>
         <el-form-item label="课程概述">
-          <el-input type="textarea"></el-input>
+          <el-input v-model="course.previewFirstField" type="textarea"></el-input>
+          <el-input style="margin-top: 10px" v-model="course.previewSecondField" type="textarea"></el-input>
         </el-form-item>
         <el-form-item label="讲师姓名">
-          <el-input></el-input>
+          <el-input v-model="course.teacherDTO.teacherName"></el-input>
         </el-form-item>
         <el-form-item label="讲师简介">
-          <el-input></el-input>
+          <el-input v-model="course.teacherDTO.description"></el-input>
         </el-form-item>
         <el-form-item label="课程排序">
-          <el-input-number></el-input-number>
+          <el-input-number v-model="course.sortNum"></el-input-number>
         </el-form-item>
       </div>
       <div v-show="activeStep === 1">
         <el-form-item label="课程封面">
-          <el-upload class="avatar-uploader"
-                     action="https://jsonplaceholder.typicode.com/posts/"
-                     :show-file-list="false"
-                     :on-success="handleAvatarSuccess"
-                     :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl"
-                 :src="imageUrl"
-                 class="avatar">
-            <i v-else
-               class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <upload-img v-model="course.courseListImg" />
         </el-form-item>
         <el-form-item label="解锁封面">
-          <el-upload class="avatar-uploader"
-                     action="https://jsonplaceholder.typicode.com/posts/"
-                     :show-file-list="false"
-                     :on-success="handleAvatarSuccess"
-                     :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl"
-                 :src="imageUrl"
-                 class="avatar">
-            <i v-else
-               class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <upload-img v-model="course.courseImgUrl" />
         </el-form-item>
       </div>
       <div v-show="activeStep === 2">
@@ -123,9 +104,13 @@
   </el-card>
 </template>
 <script>
-import { createCourse } from '@/api/course'
+import { createCourse, uploadCourseImage } from '@/api/course'
+import UploadImg from '@/views/components/UploadImg.vue'
 export default {
   name: 'CourseCreate',
+  components: {
+    UploadImg
+  },
   data () {
     return {
       activeStep: 0,
@@ -150,7 +135,44 @@ export default {
         icon: 'el-icon-edit'
       }],
       imageUrl: '',
-      isSeckill: false
+      isSeckill: false,
+      course: {
+        id: 0,
+        courseName: '',
+        brief: '',
+        teacherDTO: {
+          id: 0,
+          courseId: 0,
+          teacherName: '',
+          teacherHeadPicUrl: '',
+          position: '',
+          description: ''
+        },
+        courseDescriptionMarkDown: '',
+        price: 0,
+        discounts: 0,
+        priceTag: '',
+        discountsTag: '',
+        isNew: true,
+        isNewDes: '',
+        courseListImg: '',
+        courseImgUrl: '',
+        sortNum: 0,
+        previewFirstField: '',
+        previewSecondField: '',
+        status: 0,
+        sales: 0,
+        activityCourse: true,
+        activityCourseDTO: {
+          id: 0,
+          courseId: 0,
+          beginTime: '',
+          endTime: '',
+          amount: 0,
+          stock: 0
+        },
+        autoOnlineTime: ''
+      }
     }
   },
   methods: {
@@ -168,6 +190,14 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
+    },
+    // 自定义上传
+    async handleUpload (options) {
+      console.log(options)
+      const fd = new FormData()
+      fd.append('file', options.file)
+      const { data } = await uploadCourseImage(fd)
+      console.log(data)
     }
   }
 }

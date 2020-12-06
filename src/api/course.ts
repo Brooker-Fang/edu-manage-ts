@@ -36,3 +36,11 @@ export const getCourseById = (courseId: number| string) => {
     }
   })
 }
+export const uploadCourseImage = (data: any) => {
+  // data 为 formData 数据对象
+  return request({
+    method: 'POST',
+    url: '/boss/course/upload',
+    data
+  })
+}
