@@ -93,8 +93,7 @@
       </div>
       <div v-show="activeStep === 4">
         <el-form-item label="课程详情">
-            <el-input type="textarea" v-model="course.courseDescriptionMarkDown">
-            </el-input>
+            <TextEditor v-model="course.courseDescriptionMarkDown"/>
           </el-form-item>
         <el-form-item>
           <el-button @click="createCourse">保存</el-button>
@@ -109,10 +108,12 @@
 <script>
 import { createCourse, uploadCourseImage } from '@/api/course'
 import UploadImg from '@/views/components/UploadImg.vue'
+import TextEditor from '@/views/components/TextEditor.vue'
 export default {
   name: 'CourseCreate',
   components: {
-    UploadImg
+    UploadImg,
+    TextEditor
   },
   data () {
     return {
@@ -150,7 +151,7 @@ export default {
           position: '',
           description: ''
         },
-        courseDescriptionMarkDown: '',
+        courseDescriptionMarkDown: '<h1>111</h1>',
         price: 0,
         discounts: 0,
         priceTag: '',
